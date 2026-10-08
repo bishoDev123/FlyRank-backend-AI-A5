@@ -119,3 +119,24 @@ broken command:
         "title": "That girl'\''s secret"
     }
 }'`
+
+#### Testing the AI in stage 2:
+
+`{
+    "output": "```json\n{\n  \"script\": \"Let’s jump into \\\"study me\\\" by ZUTOMAYO. Then, we’re transitioning to \\\"That Girl’s Secret\\\" by Eve.\"\n}\n```\n"
+}`
+
+`
+{
+    "output": "```json\n{\n  \"script\": \"Let’s start with \\\"study me\\\" by ZUTOMAYO. Then, we’ll jump to \\\"That girl’s secret\\\" by Eve.\"\n}\n```\n"
+}
+`
+
+`
+{
+    "output": "```json\n{\n  \"script\": \"Let’s jump into \\\"study me\\\" by ZUTOMAYO. Then, we’ll hear \\\"That Girl’s Secret\\\" by Eve.\"\n}\n```\n"
+}
+`
+
+In all of these examples the wording changes favourably, as it still keeps the same idea for the script of a radio DJ, although it has some markdown notation which will need to be removed in the future to access the actual JSON output.
+

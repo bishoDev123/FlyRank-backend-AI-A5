@@ -1,10 +1,29 @@
 const express = require('express');
 const router = express.Router();
 const z = require('zod');
+const { OpenAI } = require("openai");
 
 const { LLMInputSchema, LLMOutputSchema } = require('../llm/schema');
 
-router.post('/generate-script', (req, res, next) => {
+const fs = require("fs");
+const path = require("path");
+
+const promptPath = path.join(
+    process.cwd(),
+    "src",
+    "llm",
+    "prompts",
+    "generate-script-v1.md"
+);
+
+const client = new OpenAI({
+    baseURL: process.env.LLM_BASE_URL,
+    apiKey: process.env.LLM_API_KEY
+});
+
+const systemPrompt = fs.readFileSync(promptPath, "utf8");
+
+router.post('/generate-script', async (req, res, next) => {
     try {
         // A stub mode to not use LLM resources
         if (process.env.LLM_STUB == 1) {
@@ -14,10 +33,26 @@ router.post('/generate-script', (req, res, next) => {
         }
         else {
             const input = LLMInputSchema.parse(req.body);
-            // in case not in stub mode
-            return res.status(501).json({
-                error: "LLM implementation not available"
+
+            const prompt = [
+                {
+                    role: "system",
+                    content: systemPrompt
+                },
+                {
+                    role: "user",
+                    content: JSON.stringify(input)
+                }
+            ]
+
+            const completion = await client.chat.completions.create({
+                model: process.env.LLM_MODEL,
+                messages: prompt,
+                temperature: 0.2
             });
+            const text = completion.choices[0].message.content;
+
+            return res.status(200).json({ output: text });
         }
 
     } catch (error) {
