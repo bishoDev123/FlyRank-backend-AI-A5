@@ -5,6 +5,7 @@ const {swaggerDocs} = require('./util/swagger');
 const tasksRoutes = require('./routes/tasks.routes');
 const metaRoutes = require('./routes/meta.routes');
 const authRoutes = require('./routes/auth.routes');
+const llmRoutes = require('./routes/llm.routes');
 const { errorHandler } = require('./middleware/error-handler');
 
 function createApp() {
@@ -16,6 +17,7 @@ function createApp() {
   app.use('/', tasksRoutes);
   app.use('/', metaRoutes);
   app.use('/', authRoutes);
+  app.use('/', llmRoutes);
   
   app.use(errorHandler);
   

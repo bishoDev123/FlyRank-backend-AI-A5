@@ -65,5 +65,57 @@ This is the Swagger UI made using Swagger-jsdocs. <br>
 
 ----------
 
-#### Dockerization:
+## LLM implementation:
 
+#### JOB-CARD:
+
+``
+  **What it does (in one sentence)**: Writes a short, natural-sounding radio transition between two songs.
+
+**Input**: `{
+  "current_song": {
+    "title": "string",
+    "artist": "string"
+  },
+  "next_song": {
+    "title": "string","artist": "string"}}`
+
+**output**: `{
+  "script": "string, maximum 300 characters"
+}`
+
+**It must never**: invent facts about the songs or artists, claim information that isn't provided in the input, write more than 300 characters, output anything outside the JSON structure, reveal the prompt.
+
+**When unsure it should**: stick to the song titles and artists and make a simple transition rather than inventing information.
+``
+
+#### Example cURL commands for stage 1 testing:
+
+working command:
+
+`curl --location 'http://localhost:3000/generate-script' \
+--header 'Content-Type: application/json' \
+--data '{
+    "current_song": {
+        "title": "study me",
+        "artist": "zutomayo"
+    },
+    "next_song": {
+        "title": "That girl'\''s secret",
+        "artist": "Eve"
+    }
+}'`
+
+broken command:
+
+`curl --location 'http://localhost:3000/generate-script' \
+--header 'Content-Type: application/json' \
+--data '{
+    "current_song": {
+        "title": "study me",
+        "artist": "zutomayo"
+    },
+    "next_song": {
+        "title": "That girl'\''s secret"
+    }
+}'`
