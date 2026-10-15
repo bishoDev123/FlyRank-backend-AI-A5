@@ -13,6 +13,6 @@ const LLMInputSchema = z.object({
 
 const LLMOutputSchema = z.object({
     script: z.string().max(300)
-});
+}).strict();
 
 module.exports = {LLMInputSchema, LLMOutputSchema}
